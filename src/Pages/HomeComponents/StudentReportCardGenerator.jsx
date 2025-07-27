@@ -51,7 +51,7 @@ const StudentReportCardGenerator = () => {
       <h2 className="text-lg font-semibold text-primary mb-2">
         Student Information
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-4 mb-6">
         <div>
           <label className="label text-gray-600"> Student Name *</label>
           <input
@@ -59,18 +59,19 @@ const StudentReportCardGenerator = () => {
             value={studentInfo.studentName}
             onChange={handleStudentChange}
             placeholder="Enter student's full name"
-            className="input"
+            className="input w-full"
             required
           />
         </div>
         <div>
           <label className="label text-gray-600"> Student Roll *</label>
+          <br />
           <input
             name="rollNumber"
             value={studentInfo.rollNumber}
             onChange={handleStudentChange}
             placeholder="Enter roll number"
-            className="input"
+            className="input w-full"
             required
           />
         </div>
@@ -81,7 +82,7 @@ const StudentReportCardGenerator = () => {
             value={studentInfo.className}
             onChange={handleStudentChange}
             placeholder="e.g., Class 10-A"
-            className="input"
+            className="input w-full"
             required
           />
         </div>
@@ -93,7 +94,7 @@ const StudentReportCardGenerator = () => {
             value={studentInfo.examName}
             onChange={handleStudentChange}
             placeholder="e.g., Final Examination 2024"
-            className="input"
+            className="input w-full"
             required
           />
         </div>
@@ -136,9 +137,9 @@ const StudentReportCardGenerator = () => {
               placeholder="100"
               readOnly
               value={subject.totalMarks}
-              onChange={(e) =>
-                handleSubjectChange(index, "totalMarks", e.target.value)
-              }
+              // onChange={(e) =>
+              //   handleSubjectChange(index, "totalMarks", e.target.value)
+              // }
               className="input"
             />
             <button
