@@ -5,7 +5,6 @@ const StudentReportCardGenerator = () => {
     studentName: "",
     rollNumber: "",
     className: "",
-    schoolName: "",
     examName: "",
   });
 
@@ -49,54 +48,61 @@ const StudentReportCardGenerator = () => {
       </h1>
 
       {/* Student Information */}
-      <h2 className="text-lg font-semibold mb-2">Student Information</h2>
+      <h2 className="text-lg font-semibold text-primary mb-2">
+        Student Information
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <input
-          name="studentName"
-          value={studentInfo.studentName}
-          onChange={handleStudentChange}
-          placeholder="Enter student's full name"
-          className="input"
-          required
-        />
-        <input
-          name="rollNumber"
-          value={studentInfo.rollNumber}
-          onChange={handleStudentChange}
-          placeholder="Enter roll number"
-          className="input"
-          required
-        />
-        <input
-          name="className"
-          value={studentInfo.className}
-          onChange={handleStudentChange}
-          placeholder="e.g., Class 10-A"
-          className="input"
-          required
-        />
-        <input
-          name="schoolName"
-          value={studentInfo.schoolName}
-          onChange={handleStudentChange}
-          placeholder="Enter school name"
-          className="input"
-          required
-        />
-        <input
-          name="examName"
-          value={studentInfo.examName}
-          onChange={handleStudentChange}
-          placeholder="e.g., Final Examination 2024"
-          className="input col-span-1 md:col-span-2"
-          required
-        />
+        <div>
+          <label className="label text-gray-600"> Student Name *</label>
+          <input
+            name="studentName"
+            value={studentInfo.studentName}
+            onChange={handleStudentChange}
+            placeholder="Enter student's full name"
+            className="input"
+            required
+          />
+        </div>
+        <div>
+          <label className="label text-gray-600"> Student Roll *</label>
+          <input
+            name="rollNumber"
+            value={studentInfo.rollNumber}
+            onChange={handleStudentChange}
+            placeholder="Enter roll number"
+            className="input"
+            required
+          />
+        </div>
+        <div>
+          <label className="label text-gray-600"> Student Class *</label>
+          <input
+            name="className"
+            value={studentInfo.className}
+            onChange={handleStudentChange}
+            placeholder="e.g., Class 10-A"
+            className="input"
+            required
+          />
+        </div>
+        <div>
+          <label className="label text-gray-600"> Exam Name *</label>
+          <br />
+          <input
+            name="examName"
+            value={studentInfo.examName}
+            onChange={handleStudentChange}
+            placeholder="e.g., Final Examination 2024"
+            className="input"
+            required
+          />
+        </div>
       </div>
 
       {/* Subject Marks */}
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2">
-          <h3 className="text-lg font-semibold">Subject Marks</h3>
+          <h3 className="text-lg font-semibold text-primary">Subject Marks</h3>
           <button onClick={handleAddSubject} type="button" className="btn">
             + Add Subject
           </button>
@@ -128,6 +134,7 @@ const StudentReportCardGenerator = () => {
             <input
               type="number"
               placeholder="100"
+              readOnly
               value={subject.totalMarks}
               onChange={(e) =>
                 handleSubjectChange(index, "totalMarks", e.target.value)
@@ -144,7 +151,7 @@ const StudentReportCardGenerator = () => {
         ))}
       </div>
 
-      <button onClick={handleGenerate} className="btn-primary">
+      <button onClick={handleGenerate} className="btn-primary btn">
         Generate Report Card
       </button>
     </div>
