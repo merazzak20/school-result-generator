@@ -6,8 +6,8 @@ import TopHeader from "./HomeComponents/TopHeader";
 
 const HomePage = () => {
   return (
-    <div>
-      <TopHeader></TopHeader>
+    <div className="bg-white ">
+      {/* <TopHeader></TopHeader> */}
       <StudentReportCardGenerator></StudentReportCardGenerator>
     </div>
   );

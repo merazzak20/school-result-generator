@@ -1,43 +1,67 @@
-const getGrade = (mark) => {
-  if (mark >= 80) return "A+";
-  if (mark >= 70) return "A";
-  if (mark >= 60) return "A-";
-  if (mark >= 50) return "B";
-  if (mark >= 40) return "C";
-  if (mark >= 33) return "D";
-  return "F";
-};
+import { useLocation, useNavigate } from "react-router";
+import jsPDF from "jspdf";
 
-const ResultCard = ({ student, subjects }) => {
-  const total = subjects.reduce(
-    (acc, subj) => acc + parseInt(subj.mark || 0),
-    0
-  );
-  const isFailed = subjects.some((s) => parseInt(s.mark) < 33);
-  const average = total / subjects.length;
-  const finalGrade = isFailed ? "F" : getGrade(average);
+const ResultCard = () => {
+  const { state } = useLocation(); // Get data passed from the generator
+  const navigate = useNavigate();
+
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+
+    // Add report card content to PDF (customize as needed)
+    doc.text(`Name: ${state.studentInfo.studentName}`, 20, 20);
+    doc.text(`Class: ${state.studentInfo.className}`, 20, 30);
+    // ... Add more fields and styling
+
+    doc.save("report-card.pdf");
+  };
 
   return (
-    <div>
-      <h2>Result Card</h2>
-      <p>Name: {student.name}</p>
-      <p>Roll: {student.roll}</p>
-      <p>Class: {student.class}</p>
-      <p>Section: {student.section}</p>
+    <div className="p-6 max-w-4xl mx-auto">
+      {/* Display the report card (similar to your image) */}
+      <h1>Student Report Card</h1>
+      <h2>Student Information</h2>
+      <p>
+        Name: <strong>{state.studentInfo.studentName}</strong>
+      </p>
+      <p>
+        Roll Number: <strong>{state.studentInfo.rollNumber}</strong>
+      </p>
+      {/* ... Render other fields */}
 
-      <h3>Subject Marks:</h3>
-      <ul>
-        {subjects.map((s, i) => (
-          <li key={i}>
-            {s.subject}: {s.mark} ({getGrade(s.mark)})
-          </li>
-        ))}
-      </ul>
+      {/* Subject-wise performance table */}
+      <table>
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Marks Obtained</th>
+            <th>Total Marks</th>
+            <th>Percentage</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          {state.subjects.map((subject, index) => (
+            <tr key={index}>
+              <td>{subject.name}</td>
+              <td>{subject.marksObtained}</td>
+              <td>{subject.totalMarks}</td>
+              <td>{/* Calculate percentage */}</td>
+              <td>{/* Calculate grade */}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-      <h3>Total: {total}</h3>
-      <h3>Average: {average.toFixed(2)}</h3>
-      <h3>Final Grade: {finalGrade}</h3>
-      <h3>Status: {isFailed ? "Fail" : "Pass"}</h3>
+      {/* Download button */}
+      <button onClick={handleDownloadPDF} className="btn-primary">
+        Download PDF
+      </button>
+
+      {/* Back button */}
+      <button onClick={() => navigate("/")} className="btn-secondary">
+        Back to Generator
+      </button>
     </div>
   );
 };
