@@ -9,6 +9,8 @@ const StudentReportCardGenerator = () => {
     rollNumber: "",
     className: "",
     examName: "",
+    present: "",
+    absent: "",
   });
 
   const [subjects, setSubjects] = useState([
@@ -83,7 +85,7 @@ const StudentReportCardGenerator = () => {
             />
           </div>
           <div>
-            <label className="label text-gray-600"> Student Class *</label>
+            <label className="label text-gray-600"> Class *</label>
             <input
               name="className"
               value={studentInfo.className}
@@ -101,6 +103,30 @@ const StudentReportCardGenerator = () => {
               value={studentInfo.examName}
               onChange={handleStudentChange}
               placeholder="e.g., Final Examination 2024"
+              className="input w-full"
+              required
+            />
+          </div>
+          <div>
+            <label className="label text-gray-600"> Present *</label>
+            <br />
+            <input
+              name="present"
+              value={studentInfo.present}
+              onChange={handleStudentChange}
+              placeholder="70"
+              className="input w-full"
+              required
+            />
+          </div>
+          <div>
+            <label className="label text-gray-600"> Absent *</label>
+            <br />
+            <input
+              name="absent"
+              value={studentInfo.absent}
+              onChange={handleStudentChange}
+              placeholder="15"
               className="input w-full"
               required
             />
