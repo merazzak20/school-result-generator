@@ -25,23 +25,39 @@ const ResultCard = () => {
 
   const handleDownloadPDF = async () => {
     const card = cardRef.current;
-    card.style.backgroundColor = "#ffffff";
+
+    // 1. Apply overrides to the ENTIRE document
+    document.documentElement.classList.add("pdf-export"); // <html> element
+
+    // 2. Add a small delay to ensure styles apply
+    await new Promise((resolve) => setTimeout(resolve, 50));
+
+    // 3. Generate PDF
     const canvas = await html2canvas(card, {
       scale: 2,
-      backgroundColor: "#ffffff", // Also ensure canvas uses white background
+      backgroundColor: "#ffffff",
       useCORS: true,
+      logging: true, // Check console for warnings
     });
-    const imgData = canvas.toDataURL("image/png");
+
+    // 4. Clean up
+    document.documentElement.classList.remove("pdf-export");
+
+    // 5. Create PDF
     const pdf = new jsPDF("p", "mm", "a4");
-
+    const imgData = canvas.toDataURL("image/png");
     const imgProps = pdf.getImageProperties(imgData);
-
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
 
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
     pdf.save(`${studentName}-${rollNumber}.pdf`);
   };
+
+  // Calculate total marks and percentage
+  const totalMarks = subjects.reduce((sum, sub) => sum + sub.marksObtained, 0);
+  const maxMarks = subjects.reduce((sum, sub) => sum + sub.totalMarks, 0);
+  const percentage = ((totalMarks / maxMarks) * 100).toFixed(1);
 
   return (
     <Container>
@@ -56,6 +72,11 @@ const ResultCard = () => {
           </h1>
 
           <p className="text-lg text-gray-700">{"Your School Name"}</p>
+          <div className="mt-4">
+            <span className="inline-block px-4 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
+              {percentage >= 40 ? "PASS" : "FAIL"}
+            </span>
+          </div>
         </div>
 
         {/* Student Info */}

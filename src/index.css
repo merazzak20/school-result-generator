@@ -1,0 +1,18 @@
+/* Force DaisyUI v5 to use HEX instead of oklch() */
+:root {
+  --color-primary: #570df8 !important;
+  --color-secondary: #f000b8 !important;
+  --color-accent: #37cdbe !important;
+  --color-neutral: #1f2937 !important;
+}
+
+/* Nuclear option for PDF generation */
+.pdf-export * {
+  color: black !important;
+  background: white !important;
+  border-color: #e5e7eb !important;
+  --color-primary: #570df8 !important;
+  --color-secondary: #f000b8 !important;
+  --color-accent: #37cdbe !important;
+  --color-neutral: #1f2937 !important;
+}
