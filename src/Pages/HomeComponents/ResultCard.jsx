@@ -3,6 +3,8 @@ import jsPDF from "jspdf";
 import Container from "../../Components/Shared/Container";
 import { useRef } from "react";
 import html2canvas from "html2canvas";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import ReportCardPDF from "../ReportCardPDF";
 
 const getGrade = (mark) => {
   if (mark >= 80) return "A+";
@@ -152,12 +154,25 @@ const ResultCard = () => {
 
         {/* Buttons */}
         <div className="mt-8 flex justify-between">
-          <button
+          {/* <button
             onClick={handleDownloadPDF}
             className="bg-blue-800 text-white px-6 py-2 rounded hover:bg-blue-900"
           >
             Download PDF
-          </button>
+          </button> */}
+          {/* PDF Download Button */}
+          <PDFDownloadLink
+            document={
+              <ReportCardPDF
+                studentInfo={state.studentInfo}
+                subjects={state.subjects}
+              />
+            }
+            fileName={`${state.studentInfo.studentName}-report-card.pdf`}
+            className="btn btn-primary"
+          >
+            {({ loading }) => (loading ? "Generating PDF..." : "Download PDF")}
+          </PDFDownloadLink>
           <button
             onClick={() => navigate("/")}
             className="bg-gray-300 px-6 py-2 rounded hover:bg-gray-400"

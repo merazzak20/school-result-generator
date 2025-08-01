@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import Container from "../../Components/Shared/Container";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import ReportCardPDF from "../ReportCardPDF";
 
 const StudentReportCardGenerator = () => {
   const navigate = useNavigate();
@@ -194,6 +196,17 @@ const StudentReportCardGenerator = () => {
         <button onClick={handleGenerate} className="btn-primary btn">
           Generate Report Card
         </button>
+
+        {/* PDF Download Button */}
+        <PDFDownloadLink
+          document={
+            <ReportCardPDF studentInfo={studentInfo} subjects={subjects} />
+          }
+          fileName={`${studentInfo.studentName}-report-card.pdf`}
+          className="btn btn-primary"
+        >
+          {({ loading }) => (loading ? "Generating PDF..." : "Download PDF")}
+        </PDFDownloadLink>
       </div>
     </Container>
     // <div className="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow mt-10">
