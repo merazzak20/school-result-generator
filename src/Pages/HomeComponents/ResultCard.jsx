@@ -1,10 +1,11 @@
 import { useLocation, useNavigate } from "react-router";
-import jsPDF from "jspdf";
+// import jsPDF from "jspdf";
 import Container from "../../Components/Shared/Container";
 import { useRef } from "react";
-import html2canvas from "html2canvas";
+// import html2canvas from "html2canvas";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ReportCardPDF from "../ReportCardPDF";
+import { FaDownload } from "react-icons/fa6";
 
 const getGrade = (mark) => {
   if (mark >= 80) return "A+";
@@ -25,36 +26,36 @@ const ResultCard = () => {
     state.studentInfo;
   const subjects = state.subjects || [];
 
-  const handleDownloadPDF = async () => {
-    const card = cardRef.current;
+  // const handleDownloadPDF = async () => {
+  //   const card = cardRef.current;
 
-    // 1. Apply overrides to the ENTIRE document
-    document.documentElement.classList.add("pdf-export"); // <html> element
+  //   // 1. Apply overrides to the ENTIRE document
+  //   document.documentElement.classList.add("pdf-export"); // <html> element
 
-    // 2. Add a small delay to ensure styles apply
-    await new Promise((resolve) => setTimeout(resolve, 50));
+  //   // 2. Add a small delay to ensure styles apply
+  //   await new Promise((resolve) => setTimeout(resolve, 50));
 
-    // 3. Generate PDF
-    const canvas = await html2canvas(card, {
-      scale: 2,
-      backgroundColor: "#ffffff",
-      useCORS: true,
-      logging: true, // Check console for warnings
-    });
+  //   // 3. Generate PDF
+  //   const canvas = await html2canvas(card, {
+  //     scale: 2,
+  //     backgroundColor: "#ffffff",
+  //     useCORS: true,
+  //     logging: true, // Check console for warnings
+  //   });
 
-    // 4. Clean up
-    document.documentElement.classList.remove("pdf-export");
+  //   // 4. Clean up
+  //   document.documentElement.classList.remove("pdf-export");
 
-    // 5. Create PDF
-    const pdf = new jsPDF("p", "mm", "a4");
-    const imgData = canvas.toDataURL("image/png");
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+  //   // 5. Create PDF
+  //   const pdf = new jsPDF("p", "mm", "a4");
+  //   const imgData = canvas.toDataURL("image/png");
+  //   const imgProps = pdf.getImageProperties(imgData);
+  //   const pdfWidth = pdf.internal.pageSize.getWidth();
+  //   const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save(`${studentName}-${rollNumber}.pdf`);
-  };
+  //   pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+  //   pdf.save(`${studentName}-${rollNumber}.pdf`);
+  // };
 
   // Calculate total marks and percentage
   const totalMarks = subjects.reduce((sum, sub) => sum + sub.marksObtained, 0);
@@ -65,7 +66,7 @@ const ResultCard = () => {
     <Container>
       <div
         ref={cardRef}
-        className="bg-white p-10 max-w-4xl mx-auto shadow-lg rounded-lg border-t-8 border-blue-800"
+        className="bg-white p-10 max-w-4xl mx-auto shadow-lg rounded-lg border-t-8 border-blue-800 my-10"
       >
         {/* Header Section */}
         <div className="text-center mb-8">
@@ -82,20 +83,24 @@ const ResultCard = () => {
         </div>
 
         {/* Student Info */}
-        <div className="grid grid-cols-2 justify-between gap-4 mb-8 text-gray-800">
-          <p>
-            <strong>Name:</strong> {studentName}
-          </p>
-          <p>
-            <strong>Class:</strong> {className}
-          </p>
+        <div className="flex justify-between mb-8 text-gray-800">
+          <div className="1st space-y-4">
+            <p>
+              <strong>Name:</strong> {studentName}
+            </p>
+            <p>
+              <strong>Class:</strong> {className}
+            </p>
+          </div>
 
-          <p>
-            <strong>Roll Number:</strong> {rollNumber}
-          </p>
-          <p>
-            <strong>Exam:</strong> {examName}
-          </p>
+          <div className="2nd space-y-4">
+            <p>
+              <strong>Roll Number:</strong> {rollNumber}
+            </p>
+            <p>
+              <strong>Exam:</strong> {examName}
+            </p>
+          </div>
         </div>
 
         {/* Subject Table */}
@@ -135,7 +140,7 @@ const ResultCard = () => {
         <div className="grid grid-cols-2 gap-8 mt-10 text-sm text-gray-700">
           <div>
             <h3 className="font-semibold mb-2">Grading Scale:</h3>
-            <ul>
+            <ul className="grid grid-cols-2 gap-1">
               <li>A+ = 80-100</li>
               <li>A = 70-79</li>
               <li>A- = 60-69</li>
@@ -171,7 +176,15 @@ const ResultCard = () => {
             fileName={`${state.studentInfo.studentName}-report-card.pdf`}
             className="btn btn-primary"
           >
-            {({ loading }) => (loading ? "Generating PDF..." : "Download PDF")}
+            {({ loading }) =>
+              loading ? (
+                "Generating PDF..."
+              ) : (
+                <>
+                  <FaDownload></FaDownload> Download PDF
+                </>
+              )
+            }
           </PDFDownloadLink>
           <button
             onClick={() => navigate("/")}

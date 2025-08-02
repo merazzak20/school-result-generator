@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   studentInfo: {
     flexDirection: "row",
     flexWrap: "wrap",
+    justifyContent: "space-between",
     marginBottom: 20,
   },
   infoItem: {
