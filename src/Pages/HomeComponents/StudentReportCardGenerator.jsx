@@ -16,10 +16,10 @@ const StudentReportCardGenerator = () => {
   });
 
   const [subjects, setSubjects] = useState([
-    { name: "Bangla", marksObtained: 0, totalMarks: 100 },
-    { name: "English", marksObtained: 0, totalMarks: 100 },
-    { name: "Mathematics", marksObtained: 0, totalMarks: 100 },
-    { name: "Science", marksObtained: 0, totalMarks: 100 },
+    { name: "Bangla", marksObtained: "", totalMarks: 100 },
+    { name: "English", marksObtained: "", totalMarks: 100 },
+    { name: "Mathematics", marksObtained: "", totalMarks: 100 },
+    { name: "Science", marksObtained: "", totalMarks: 100 },
   ]);
 
   const handleStudentChange = (e) => {
@@ -54,13 +54,16 @@ const StudentReportCardGenerator = () => {
   return (
     <div className="py-10">
       <Container>
+        <h1 className="text-emerald-600 text-center font-bold text-3xl mb-4">
+          ABC International School
+        </h1>
         <div className="bg-white shadow-2xl">
-          <h1 className="text-2xl font-bold mb-2 bg-blue-600 text-white rounded-t-xl px-6 py-6">
+          <h1 className="text-2xl font-bold mb-2 bg-emerald-800 text-white rounded-t-xl px-6 py-6">
             🎓 Student Report Card Generator
           </h1>
           <div className="p-10">
             {/* Student Information */}
-            <h2 className="text-lg font-semibold text-primary mb-2">
+            <h2 className="text-lg font-semibold text-emerald-500 mb-2">
               Student Information
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-4 mb-6">
@@ -71,7 +74,7 @@ const StudentReportCardGenerator = () => {
                   value={studentInfo.studentName}
                   onChange={handleStudentChange}
                   placeholder="Enter student's full name"
-                  className="input w-full bg-blue-200 text-gray-600"
+                  className="input w-full bg-gray-200 text-gray-600"
                   required
                 />
               </div>
@@ -83,7 +86,7 @@ const StudentReportCardGenerator = () => {
                   value={studentInfo.rollNumber}
                   onChange={handleStudentChange}
                   placeholder="Enter roll number"
-                  className="input w-full bg-blue-200 text-gray-600"
+                  className="input w-full bg-gray-200 text-gray-600"
                   required
                 />
               </div>
@@ -94,7 +97,7 @@ const StudentReportCardGenerator = () => {
                   value={studentInfo.className}
                   onChange={handleStudentChange}
                   placeholder="e.g., Class 10-A"
-                  className="input w-full bg-blue-200 text-gray-600"
+                  className="input w-full bg-gray-200 text-gray-600"
                   required
                 />
               </div>
@@ -106,7 +109,7 @@ const StudentReportCardGenerator = () => {
                   value={studentInfo.examName}
                   onChange={handleStudentChange}
                   placeholder="e.g., Final Examination 2024"
-                  className="input w-full"
+                  className="input w-full bg-gray-200 text-gray-600"
                   required
                 />
               </div>
@@ -118,7 +121,7 @@ const StudentReportCardGenerator = () => {
                   value={studentInfo.present}
                   onChange={handleStudentChange}
                   placeholder="70"
-                  className="input w-full"
+                  className="input w-full bg-gray-200 text-gray-600"
                   required
                 />
               </div>
@@ -130,7 +133,7 @@ const StudentReportCardGenerator = () => {
                   value={studentInfo.absent}
                   onChange={handleStudentChange}
                   placeholder="15"
-                  className="input w-full"
+                  className="input w-full bg-gray-200 text-gray-600"
                   required
                 />
               </div>
@@ -139,13 +142,13 @@ const StudentReportCardGenerator = () => {
             {/* Subject Marks */}
             <div className="mb-6">
               <div className="flex justify-between items-center mb-2">
-                <h3 className="text-lg font-semibold text-primary">
+                <h3 className="text-lg font-semibold text-emerald-500">
                   Subject Marks
                 </h3>
                 <button
                   onClick={handleAddSubject}
                   type="button"
-                  className="btn btn-success outline-none border-none shadow-none"
+                  className="btn bg-emerald-800 outline-none border-none shadow-none"
                 >
                   + Add Subject
                 </button>
@@ -163,7 +166,7 @@ const StudentReportCardGenerator = () => {
                     onChange={(e) =>
                       handleSubjectChange(index, "name", e.target.value)
                     }
-                    className="input w-full"
+                    className="input w-full bg-gray-200 text-gray-600"
                   />
                   <input
                     type="number"
@@ -176,7 +179,7 @@ const StudentReportCardGenerator = () => {
                         e.target.value
                       )
                     }
-                    className="input w-full"
+                    className="input w-full bg-gray-200 text-gray-600"
                   />
                   <input
                     type="number"
@@ -186,11 +189,11 @@ const StudentReportCardGenerator = () => {
                     // onChange={(e) =>
                     //   handleSubjectChange(index, "totalMarks", e.target.value)
                     // }
-                    className="input w-full"
+                    className="input w-full bg-gray-200 text-gray-600"
                   />
                   <button
                     onClick={() => handleRemoveSubject(index)}
-                    className="btn btn-error text-white shadow-none"
+                    className="btn bg-red-500 border-none text-white shadow-none"
                   >
                     — Remove
                   </button>
@@ -198,7 +201,10 @@ const StudentReportCardGenerator = () => {
               ))}
             </div>
 
-            <button onClick={handleGenerate} className="btn-primary btn">
+            <button
+              onClick={handleGenerate}
+              className="btn bg-emerald-800 border-none shadow-none"
+            >
               Generate Report Card
             </button>
           </div>
