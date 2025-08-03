@@ -171,6 +171,7 @@ const ResultCard = () => {
               <ReportCardPDF
                 studentInfo={state.studentInfo}
                 subjects={state.subjects}
+                percentage={percentage}
               />
             }
             fileName={`${state.studentInfo.studentName}-report-card.pdf`}

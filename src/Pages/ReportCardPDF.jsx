@@ -1,167 +1,159 @@
 // components/ReportCardPDF.jsx
-import {
-  Document,
-  Page,
-  View,
-  Text,
-  StyleSheet,
-  Font,
-} from "@react-pdf/renderer";
+import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
 
-// Register fonts if needed (optional)
-// Font.register({
-//   family: "Roboto",
-//   fonts: [
-//     {
-//       src: "https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2",
-//     }, // Regular
-//     {
-//       src: "https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc4AMP6lQ.woff2",
-//       fontWeight: 700,
-//     }, // Bold
-//   ],
-// });
-
-// Create styles
+// Style definitions
 const styles = StyleSheet.create({
   page: {
     padding: 40,
     fontFamily: "Helvetica",
   },
   header: {
-    marginBottom: 20,
     textAlign: "center",
+    marginBottom: 10,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10,
+    color: "#1e3a8a",
   },
   subtitle: {
-    fontSize: 16,
-    marginBottom: 30,
+    fontSize: 14,
+    marginBottom: 10,
+  },
+  badge: {
+    display: "inline-block",
+    backgroundColor: "#e0e7ff",
+    color: "#1e40af",
+    padding: "4px 10px",
+    borderRadius: 6,
+    fontSize: 10,
+    marginBottom: 20,
+    alignSelf: "center",
   },
   studentInfo: {
     flexDirection: "row",
-    flexWrap: "wrap",
     justifyContent: "space-between",
     marginBottom: 20,
   },
-  infoItem: {
+  infoLeft: {
     width: "50%",
-    marginBottom: 10,
+  },
+  infoRight: {
+    width: "50%",
+    textAlign: "right",
+  },
+  label: {
+    fontWeight: "bold",
   },
   table: {
-    width: "100%",
+    borderWidth: 1,
+    borderColor: "#1e3a8a",
     marginBottom: 30,
   },
   tableHeader: {
     flexDirection: "row",
-    backgroundColor: "#f0f0f0",
-    padding: 8,
-    fontWeight: "bold",
+    backgroundColor: "#1e3a8a",
+    color: "white",
+    padding: 6,
+    fontSize: 12,
   },
   tableRow: {
     flexDirection: "row",
+    padding: 6,
+    fontSize: 11,
     borderBottomWidth: 1,
-    borderBottomColor: "#e0e0e0",
-    padding: 8,
+    borderBottomColor: "#ddd",
   },
-  colSubject: {
-    width: "40%",
-  },
-  colMarks: {
-    width: "20%",
-    textAlign: "right",
-  },
-  colGrade: {
-    width: "20%",
-    textAlign: "center",
-  },
-  colFeedback: {
-    width: "20%",
-  },
-  summary: {
+  colSubject: { width: "40%" },
+  colMarks: { width: "20%", textAlign: "center" },
+  colGrade: { width: "20%", textAlign: "center" },
+  colFeedback: { width: "20%" },
+
+  bottomSection: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
-    paddingTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: "#e0e0e0",
   },
-  summaryItem: {
-    width: "30%",
-    textAlign: "center",
+  scaleBox: {
+    width: "48%",
+    fontSize: 10,
+    lineHeight: 1.5,
   },
-  summaryValue: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginTop: 5,
+  attendanceBox: {
+    width: "48%",
+    fontSize: 10,
+    lineHeight: 1.5,
   },
 });
 
 const getGrade = (mark) => {
   if (mark >= 80) return "A+";
-  else if (mark >= 70 && mark <= 79) return "A";
-  else if (mark >= 60 && mark <= 69) return "A-";
-  else if (mark >= 50 && mark <= 59) return "B";
-  else if (mark >= 40 && mark <= 49) return "C";
-  else if (mark >= 33 && mark <= 39) return "D";
+  if (mark >= 70) return "A";
+  if (mark >= 60) return "A-";
+  if (mark >= 50) return "B";
+  if (mark >= 40) return "C";
+  if (mark >= 33) return "D";
   return "F";
 };
 
-const ReportCardPDF = ({ studentInfo, subjects }) => {
-  const totalMarks = subjects.reduce((sum, sub) => sum + sub.marksObtained, 0);
-  const maxMarks = subjects.reduce((sum, sub) => sum + sub.totalMarks, 0);
-  const percentage = ((totalMarks / maxMarks) * 100).toFixed(1);
-  const overallGrade = getGrade(percentage);
+const ReportCardPDF = ({ studentInfo, subjects, percentage }) => {
+  // const totalMarks = subjects.reduce((sum, sub) => sum + sub.marksObtained, 0);
+  // const maxMarks = subjects.reduce((sum, sub) => sum + sub.totalMarks, 0);
+  // const percentage = ((totalMarks / maxMarks) * 100).toFixed(1);
+  // const overallGrade = getGrade(percentage);
+  // const resultStatus = overallGrade === "F" ? "FAIL" : "PASS";
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>REPORT CARD</Text>
+          <Text style={styles.title}>REPORT CARD - 2025</Text>
           <Text style={styles.subtitle}>Your School Name</Text>
+          <Text style={styles.badge}>{percentage >= 40 ? "PASS" : "FAIL"}</Text>
         </View>
 
+        {/* Student Info */}
         <View style={styles.studentInfo}>
-          <View style={styles.infoItem}>
-            <Text>Name: {studentInfo.studentName}</Text>
+          <View style={styles.infoLeft}>
+            <Text>
+              <Text style={styles.label}>Name:</Text> {studentInfo.studentName}
+            </Text>
+            <Text>
+              <Text style={styles.label}>Class:</Text> {studentInfo.className}
+            </Text>
           </View>
-          <View style={styles.infoItem}>
-            <Text>Roll No: {studentInfo.rollNumber}</Text>
-          </View>
-          <View style={styles.infoItem}>
-            <Text>Class: {studentInfo.className}</Text>
-          </View>
-          <View style={styles.infoItem}>
-            <Text>Exam: {studentInfo.examName}</Text>
+          <View style={styles.infoRight}>
+            <Text>
+              <Text style={styles.label}>Roll Number:</Text>{" "}
+              {studentInfo.rollNumber}
+            </Text>
+            <Text>
+              <Text style={styles.label}>Exam:</Text> {studentInfo.examName}
+            </Text>
           </View>
         </View>
 
+        {/* Table */}
         <View style={styles.table}>
           <View style={styles.tableHeader}>
             <Text style={styles.colSubject}>Subject</Text>
-            <Text style={styles.colMarks}>Marks</Text>
+            <Text style={styles.colMarks}>Mark</Text>
             <Text style={styles.colGrade}>Grade</Text>
             <Text style={styles.colFeedback}>Feedback</Text>
           </View>
 
-          {subjects.map((subject, index) => (
-            <View key={index} style={styles.tableRow}>
-              <Text style={styles.colSubject}>{subject.name}</Text>
-              <Text style={styles.colMarks}>
-                {subject.marksObtained}/{subject.totalMarks}
-              </Text>
-              <Text style={styles.colGrade}>
-                {getGrade(subject.marksObtained)}
-              </Text>
+          {subjects.map((sub, i) => (
+            <View key={i} style={styles.tableRow}>
+              <Text style={styles.colSubject}>{sub.name}</Text>
+              <Text style={styles.colMarks}>{sub.marksObtained}</Text>
+              <Text style={styles.colGrade}>{getGrade(sub.marksObtained)}</Text>
               <Text style={styles.colFeedback}>
-                {subject.marksObtained >= 90
+                {sub.marksObtained >= 90
                   ? "Excellent"
-                  : subject.marksObtained >= 70
+                  : sub.marksObtained >= 70
                   ? "Good"
-                  : subject.marksObtained >= 50
+                  : sub.marksObtained >= 50
                   ? "Average"
                   : "Needs Improvement"}
               </Text>
@@ -169,20 +161,22 @@ const ReportCardPDF = ({ studentInfo, subjects }) => {
           ))}
         </View>
 
-        <View style={styles.summary}>
-          <View style={styles.summaryItem}>
-            <Text>Total Marks</Text>
-            <Text style={styles.summaryValue}>
-              {totalMarks}/{maxMarks}
-            </Text>
+        {/* Bottom Section */}
+        <View style={styles.bottomSection}>
+          <View style={styles.scaleBox}>
+            <Text>Grading Scale:</Text>
+            <Text>A+ = 80-100</Text>
+            <Text>A = 70-79</Text>
+            <Text>A- = 60-69</Text>
+            <Text>B = 50-59</Text>
+            <Text>C = 40-49</Text>
+            <Text>D = 33-39</Text>
+            <Text>Fail = Below 33</Text>
           </View>
-          <View style={styles.summaryItem}>
-            <Text>Percentage</Text>
-            <Text style={styles.summaryValue}>{percentage}%</Text>
-          </View>
-          <View style={styles.summaryItem}>
-            <Text>Overall Grade</Text>
-            <Text style={styles.summaryValue}>{overallGrade}</Text>
+          <View style={styles.attendanceBox}>
+            <Text>Total Days of School:</Text>
+            <Text>Days Attended: {studentInfo.present}</Text>
+            <Text>Days Absent: {studentInfo.absent}</Text>
           </View>
         </View>
       </Page>
