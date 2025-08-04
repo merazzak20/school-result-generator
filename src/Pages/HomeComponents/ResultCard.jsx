@@ -22,9 +22,11 @@ const ResultCard = () => {
   const navigate = useNavigate();
   const cardRef = useRef();
 
-  const { studentName, rollNumber, className, examName, present, absent } =
-    state.studentInfo;
-  const subjects = state.subjects || [];
+  // const { studentName, rollNumber, className, examName, present, absent } =
+  //   state.studentInfo;
+  console.log(state?.studentInfo);
+  const student = state?.studentInfo;
+  const subjects = state?.subjects || [];
 
   // const handleDownloadPDF = async () => {
   //   const card = cardRef.current;
@@ -66,17 +68,17 @@ const ResultCard = () => {
     <Container>
       <div
         ref={cardRef}
-        className="bg-white p-10 max-w-4xl mx-auto shadow-lg rounded-lg border-t-8 border-blue-800 my-10"
+        className="bg-white p-10 max-w-4xl mx-auto shadow-lg rounded-lg border-t-8 border-emerald-800 my-10"
       >
         {/* Header Section */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-blue-900">
+          <h1 className="text-4xl font-bold text-emerald-900">
             REPORT CARD - {new Date().getFullYear()}
           </h1>
 
           <p className="text-lg text-gray-700">{"Your School Name"}</p>
           <div className="mt-4">
-            <span className="inline-block px-4 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
+            <span className="inline-block px-4 py-1 bg-emerald-100 text-emerald-800 rounded-full text-sm font-semibold">
               {percentage >= 40 ? "PASS" : "FAIL"}
             </span>
           </div>
@@ -86,26 +88,26 @@ const ResultCard = () => {
         <div className="flex justify-between mb-8 text-gray-800">
           <div className="1st space-y-4">
             <p>
-              <strong>Name:</strong> {studentName}
+              <strong>Name:</strong> {student?.studentName}
             </p>
             <p>
-              <strong>Class:</strong> {className}
+              <strong>Class:</strong> {student?.className}
             </p>
           </div>
 
           <div className="2nd space-y-4">
             <p>
-              <strong>Roll Number:</strong> {rollNumber}
+              <strong>Roll Number:</strong> {student?.rollNumber}
             </p>
             <p>
-              <strong>Exam:</strong> {examName}
+              <strong>Exam:</strong> {student?.examName}
             </p>
           </div>
         </div>
 
         {/* Subject Table */}
         <table className="w-full table-auto border border-gray-300">
-          <thead className="bg-blue-800 text-white">
+          <thead className="bg-emerald-800 text-white">
             <tr>
               <th className="py-2 px-4 text-left">Subject</th>
               <th className="py-2 px-4 text-left">Mark</th>
@@ -137,7 +139,7 @@ const ResultCard = () => {
         </table>
 
         {/* Grading Scale & Attendance */}
-        <div className="grid grid-cols-2 gap-8 mt-10 text-sm text-gray-700">
+        <div className="flex justify-between gap-8 mt-10 text-sm text-gray-700">
           <div>
             <h3 className="font-semibold mb-2">Grading Scale:</h3>
             <ul className="grid grid-cols-2 gap-1">
@@ -152,8 +154,8 @@ const ResultCard = () => {
           </div>
           <div>
             <h3 className="font-semibold mb-2">Total Days of School:</h3>
-            <p>Days Attended: {present}</p>
-            <p>Days Absent: {absent}</p>
+            <p>Days Attended: {student?.present}</p>
+            <p>Days Absent: {student?.absent}</p>
           </div>
         </div>
 
@@ -169,13 +171,13 @@ const ResultCard = () => {
           <PDFDownloadLink
             document={
               <ReportCardPDF
-                studentInfo={state.studentInfo}
-                subjects={state.subjects}
+                studentInfo={state?.studentInfo}
+                subjects={state?.subjects}
                 percentage={percentage}
               />
             }
-            fileName={`${state.studentInfo.studentName}-report-card.pdf`}
-            className="btn btn-primary"
+            fileName={`${state?.studentInfo?.studentName}-report-card.pdf`}
+            className="btn bg-emerald-600 border-none shadow-none"
           >
             {({ loading }) =>
               loading ? (
@@ -189,7 +191,7 @@ const ResultCard = () => {
           </PDFDownloadLink>
           <button
             onClick={() => navigate("/")}
-            className="bg-gray-300 px-6 py-2 rounded hover:bg-gray-400"
+            className="bg-gray-300 px-6 py-2 rounded hover:bg-gray-400 cursor-pointer"
           >
             Back to Generator
           </button>

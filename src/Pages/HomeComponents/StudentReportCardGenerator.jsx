@@ -148,7 +148,7 @@ const StudentReportCardGenerator = () => {
                 <button
                   onClick={handleAddSubject}
                   type="button"
-                  className="btn bg-emerald-800 outline-none border-none shadow-none"
+                  className="btn bg-emerald-600 outline-none border-none shadow-none"
                 >
                   + Add Subject
                 </button>
@@ -166,6 +166,7 @@ const StudentReportCardGenerator = () => {
                     onChange={(e) =>
                       handleSubjectChange(index, "name", e.target.value)
                     }
+                    required
                     className="input w-full bg-gray-200 text-gray-600"
                   />
                   <input
@@ -179,6 +180,7 @@ const StudentReportCardGenerator = () => {
                         e.target.value
                       )
                     }
+                    required
                     className="input w-full bg-gray-200 text-gray-600"
                   />
                   <input
@@ -186,6 +188,7 @@ const StudentReportCardGenerator = () => {
                     placeholder="100"
                     readOnly
                     value={subject.totalMarks}
+                    required
                     // onChange={(e) =>
                     //   handleSubjectChange(index, "totalMarks", e.target.value)
                     // }
@@ -202,8 +205,9 @@ const StudentReportCardGenerator = () => {
             </div>
 
             <button
+              // type="submit"
               onClick={handleGenerate}
-              className="btn bg-emerald-800 border-none shadow-none"
+              className="btn bg-emerald-600 border-none shadow-none"
             >
               Generate Report Card
             </button>
