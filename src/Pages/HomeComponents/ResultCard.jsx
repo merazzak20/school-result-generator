@@ -1,11 +1,12 @@
 import { useLocation, useNavigate } from "react-router";
-// import jsPDF from "jspdf";
+
 import Container from "../../Components/Shared/Container";
-import { useRef } from "react";
-// import html2canvas from "html2canvas";
+import { useEffect, useRef, useState } from "react";
+
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ReportCardPDF from "../ReportCardPDF";
 import { FaDownload } from "react-icons/fa6";
+import logo from "../../assets/logo.png";
 
 const getGrade = (mark) => {
   if (mark >= 80) return "A+";
@@ -22,182 +23,179 @@ const ResultCard = () => {
   const navigate = useNavigate();
   const cardRef = useRef();
 
-  // const { studentName, rollNumber, className, examName, present, absent } =
-  //   state.studentInfo;
-  console.log(state?.studentInfo);
-  const student = state?.studentInfo;
+  const { studentName, rollNumber, className, examName, present, absent } =
+    state.studentInfo;
+  // console.log(state?.studentInfo);
+  // const student = state?.studentInfo;
   const subjects = state?.subjects || [];
 
-  // const handleDownloadPDF = async () => {
-  //   const card = cardRef.current;
+  const [logoBase64, setLogoBase64] = useState("");
 
-  //   // 1. Apply overrides to the ENTIRE document
-  //   document.documentElement.classList.add("pdf-export"); // <html> element
-
-  //   // 2. Add a small delay to ensure styles apply
-  //   await new Promise((resolve) => setTimeout(resolve, 50));
-
-  //   // 3. Generate PDF
-  //   const canvas = await html2canvas(card, {
-  //     scale: 2,
-  //     backgroundColor: "#ffffff",
-  //     useCORS: true,
-  //     logging: true, // Check console for warnings
-  //   });
-
-  //   // 4. Clean up
-  //   document.documentElement.classList.remove("pdf-export");
-
-  //   // 5. Create PDF
-  //   const pdf = new jsPDF("p", "mm", "a4");
-  //   const imgData = canvas.toDataURL("image/png");
-  //   const imgProps = pdf.getImageProperties(imgData);
-  //   const pdfWidth = pdf.internal.pageSize.getWidth();
-  //   const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-  //   pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-  //   pdf.save(`${studentName}-${rollNumber}.pdf`);
-  // };
+  useEffect(() => {
+    fetch(logo)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const reader = new FileReader();
+        reader.onloadend = () => setLogoBase64(reader.result);
+        reader.readAsDataURL(blob);
+      });
+  }, []);
 
   // Calculate total marks and percentage
-  const totalMarks = subjects.reduce((sum, sub) => sum + sub.marksObtained, 0);
-  const maxMarks = subjects.reduce((sum, sub) => sum + sub.totalMarks, 0);
-  const percentage = ((totalMarks / maxMarks) * 100).toFixed(1);
+  // const totalMarks = subjects.reduce((sum, sub) => sum + sub.marksObtained, 0);
+  // const maxMarks = subjects.reduce((sum, sub) => sum + sub.totalMarks, 0);
+  // // const percentage = ((totalMarks / maxMarks) * 100).toFixed(1);
+
+  // result
+  const hasFailed = subjects.some((sub) => sub.marksObtained < 33);
+  const result = hasFailed ? "Fail" : "Pass";
 
   return (
-    <Container>
-      <div
-        ref={cardRef}
-        className="bg-white p-10 max-w-4xl mx-auto shadow-lg rounded-lg border-t-8 border-emerald-800 my-10"
-      >
-        {/* Header Section */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-emerald-900">
-            REPORT CARD - {new Date().getFullYear()}
-          </h1>
+    <div className="py-10">
+      <Container>
+        <div
+          ref={cardRef}
+          className="bg-white p-10 max-w-5xl mx-auto shadow-lg rounded-lg border-t-8 border-emerald-800 my-10"
+        >
+          {/* Header Section */}
+          <div className="text-center mb-8">
+            <img
+              className="max-w-[100px] text-center mx-auto"
+              src={logo}
+              alt=""
+            />
+            <h1 className="text-4xl font-bold text-emerald-900">
+              ABC International School
+            </h1>
 
-          <p className="text-lg text-gray-700">{"Your School Name"}</p>
-          <div className="mt-4">
-            <span className="inline-block px-4 py-1 bg-emerald-100 text-emerald-800 rounded-full text-sm font-semibold">
-              {percentage >= 40 ? "PASS" : "FAIL"}
-            </span>
-          </div>
-        </div>
-
-        {/* Student Info */}
-        <div className="flex justify-between mb-8 text-gray-800">
-          <div className="1st space-y-4">
-            <p>
-              <strong>Name:</strong> {student?.studentName}
+            <p className="text-lg text-gray-700">
+              REPORT CARD - {new Date().getFullYear()}
             </p>
-            <p>
-              <strong>Class:</strong> {student?.className}
-            </p>
+            <div className="mt-4">
+              <span className="inline-block px-4 py-1 bg-emerald-100 text-emerald-800 rounded-full text-sm font-semibold">
+                {result}
+              </span>
+            </div>
           </div>
 
-          <div className="2nd space-y-4">
-            <p>
-              <strong>Roll Number:</strong> {student?.rollNumber}
-            </p>
-            <p>
-              <strong>Exam:</strong> {student?.examName}
-            </p>
-          </div>
-        </div>
+          {/* Student Info */}
+          <div className="flex justify-between mb-8 text-gray-800">
+            <div className="1st space-y-4">
+              <p>
+                <strong>Name:</strong> {studentName}
+              </p>
+              <p>
+                <strong>Class:</strong> {className}
+              </p>
+            </div>
 
-        {/* Subject Table */}
-        <table className="w-full table-auto border border-gray-300">
-          <thead className="bg-emerald-800 text-white">
-            <tr>
-              <th className="py-2 px-4 text-left">Subject</th>
-              <th className="py-2 px-4 text-left">Mark</th>
-              <th className="py-2 px-4 text-left">Grade</th>
-              <th className="py-2 px-4 text-left">Feedback</th>
-            </tr>
-          </thead>
-          <tbody>
-            {subjects.map((subject, index) => (
-              <tr
-                key={index}
-                className="border-b border-gray-300 text-gray-800 bg-gray-50 hover:bg-gray-100"
-              >
-                <td className="py-2 px-4">{subject.name}</td>
-                <td className="py-2 px-4">{subject.marksObtained}</td>
-                <td className="py-2 px-4">{getGrade(subject.marksObtained)}</td>
-                <td className="py-2 px-4">
-                  {subject.marksObtained >= 90
-                    ? "Excellent"
-                    : subject.marksObtained >= 70
-                    ? "Good"
-                    : subject.marksObtained >= 50
-                    ? "Average"
-                    : "Needs Improvement"}
-                </td>
+            <div className="2nd space-y-4">
+              <p>
+                <strong>Roll Number:</strong> {rollNumber}
+              </p>
+              <p>
+                <strong>Exam:</strong> {examName}
+              </p>
+            </div>
+          </div>
+
+          {/* Subject Table */}
+          <table className="w-full table-auto border border-gray-300">
+            <thead className="bg-emerald-800 text-white">
+              <tr>
+                <th className="py-2 px-4 text-left">Subject</th>
+                <th className="py-2 px-4 text-left">Mark</th>
+                <th className="py-2 px-4 text-left">Grade</th>
+                <th className="py-2 px-4 text-left">Feedback</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {subjects.map((subject, index) => (
+                <tr
+                  key={index}
+                  className="border-b border-gray-300 text-gray-800 bg-gray-50 hover:bg-gray-100"
+                >
+                  <td className="py-2 px-4">{subject.name}</td>
+                  <td className="py-2 px-4">{subject.marksObtained}</td>
+                  <td className="py-2 px-4">
+                    {getGrade(subject.marksObtained)}
+                  </td>
+                  <td className="py-2 px-4">
+                    {subject.marksObtained >= 90
+                      ? "Excellent"
+                      : subject.marksObtained >= 70
+                      ? "Good"
+                      : subject.marksObtained >= 50
+                      ? "Average"
+                      : "Needs Improvement"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-        {/* Grading Scale & Attendance */}
-        <div className="flex justify-between gap-8 mt-10 text-sm text-gray-700">
-          <div>
-            <h3 className="font-semibold mb-2">Grading Scale:</h3>
-            <ul className="grid grid-cols-2 gap-1">
-              <li>A+ = 80-100</li>
-              <li>A = 70-79</li>
-              <li>A- = 60-69</li>
-              <li>B = 50-59</li>
-              <li>C = 40-49</li>
-              <li>D = 33-39</li>
-              <li>Fail = Below 33</li>
-            </ul>
+          {/* Grading Scale & Attendance */}
+          <div className="flex justify-between gap-8 mt-10 text-sm text-gray-700">
+            <div>
+              <h3 className="font-semibold mb-2">Grading Scale:</h3>
+              <ul className="grid grid-cols-2 gap-1">
+                <li>A+ = 80-100</li>
+                <li>A = 70-79</li>
+                <li>A- = 60-69</li>
+                <li>B = 50-59</li>
+                <li>C = 40-49</li>
+                <li>D = 33-39</li>
+                <li>Fail = Below 33</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-2">Total Days of School:</h3>
+              <p>Days Attended: {present}</p>
+              <p>Days Absent: {absent}</p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-semibold mb-2">Total Days of School:</h3>
-            <p>Days Attended: {student?.present}</p>
-            <p>Days Absent: {student?.absent}</p>
-          </div>
-        </div>
 
-        {/* Buttons */}
-        <div className="mt-8 flex justify-between">
-          {/* <button
+          {/* Buttons */}
+          <div className="mt-8 flex justify-between">
+            {/* <button
             onClick={handleDownloadPDF}
             className="bg-blue-800 text-white px-6 py-2 rounded hover:bg-blue-900"
           >
             Download PDF
           </button> */}
-          {/* PDF Download Button */}
-          <PDFDownloadLink
-            document={
-              <ReportCardPDF
-                studentInfo={state?.studentInfo}
-                subjects={state?.subjects}
-                percentage={percentage}
-              />
-            }
-            fileName={`${state?.studentInfo?.studentName}-report-card.pdf`}
-            className="btn bg-emerald-600 border-none shadow-none"
-          >
-            {({ loading }) =>
-              loading ? (
-                "Generating PDF..."
-              ) : (
-                <>
-                  <FaDownload></FaDownload> Download PDF
-                </>
-              )
-            }
-          </PDFDownloadLink>
-          <button
-            onClick={() => navigate("/")}
-            className="bg-gray-300 px-6 py-2 rounded hover:bg-gray-400 cursor-pointer"
-          >
-            Back to Generator
-          </button>
+            {/* PDF Download Button */}
+            <PDFDownloadLink
+              document={
+                <ReportCardPDF
+                  logo={logoBase64}
+                  studentInfo={state?.studentInfo}
+                  subjects={state?.subjects}
+                  result={result}
+                />
+              }
+              fileName={`${state?.studentInfo?.studentName}-report-card.pdf`}
+              className="btn bg-emerald-600 border-none shadow-none"
+            >
+              {({ loading }) =>
+                loading ? (
+                  "Generating PDF..."
+                ) : (
+                  <>
+                    <FaDownload></FaDownload> Download PDF
+                  </>
+                )
+              }
+            </PDFDownloadLink>
+            <button
+              onClick={() => navigate("/")}
+              className="bg-gray-300 px-6 py-2 rounded hover:bg-gray-400 cursor-pointer"
+            >
+              Back to Generator
+            </button>
+          </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </div>
   );
 };
 

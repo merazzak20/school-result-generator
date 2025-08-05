@@ -3,7 +3,7 @@ import StudentReportCardGenerator from "./HomeComponents/StudentReportCardGenera
 
 const HomePage = () => {
   return (
-    <div className="bg-green-50 ">
+    <div>
       <StudentReportCardGenerator></StudentReportCardGenerator>
     </div>
   );

@@ -1,5 +1,13 @@
 // components/ReportCardPDF.jsx
-import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
+import {
+  Image,
+  Document,
+  Page,
+  View,
+  Text,
+  StyleSheet,
+} from "@react-pdf/renderer";
+// import logo from "../assets/logo.png";
 
 // Style definitions
 const styles = StyleSheet.create({
@@ -11,10 +19,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10,
   },
+  logo: {
+    width: 80,
+    height: 80,
+    marginBottom: 10,
+    textAlign: "center",
+  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#1e3a8a",
+    color: "#065F46",
   },
   subtitle: {
     fontSize: 14,
@@ -22,8 +36,8 @@ const styles = StyleSheet.create({
   },
   badge: {
     display: "inline-block",
-    backgroundColor: "#e0e7ff",
-    color: "#1e40af",
+    backgroundColor: "#d0fae5",
+    color: "#065F46",
     padding: "4px 10px",
     borderRadius: 6,
     fontSize: 10,
@@ -47,12 +61,12 @@ const styles = StyleSheet.create({
   },
   table: {
     borderWidth: 1,
-    borderColor: "#1e3a8a",
+    borderColor: "#065F46",
     marginBottom: 30,
   },
   tableHeader: {
     flexDirection: "row",
-    backgroundColor: "#1e3a8a",
+    backgroundColor: "#065F46",
     color: "white",
     padding: 6,
     fontSize: 12,
@@ -61,8 +75,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 6,
     fontSize: 11,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
+    // borderBottomWidth: 1,
+    // borderBottomColor: "#ddd",
   },
   colSubject: { width: "40%" },
   colMarks: { width: "20%", textAlign: "center" },
@@ -96,21 +110,28 @@ const getGrade = (mark) => {
   return "F";
 };
 
-const ReportCardPDF = ({ studentInfo, subjects, percentage }) => {
+const ReportCardPDF = ({ logo, studentInfo, subjects, result }) => {
   // const totalMarks = subjects.reduce((sum, sub) => sum + sub.marksObtained, 0);
   // const maxMarks = subjects.reduce((sum, sub) => sum + sub.totalMarks, 0);
   // const percentage = ((totalMarks / maxMarks) * 100).toFixed(1);
   // const overallGrade = getGrade(percentage);
   // const resultStatus = overallGrade === "F" ? "FAIL" : "PASS";
+  // console.log(logo);
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>REPORT CARD - 2025</Text>
-          <Text style={styles.subtitle}>Your School Name</Text>
-          <Text style={styles.badge}>{percentage >= 40 ? "PASS" : "FAIL"}</Text>
+          <Image
+            src={logo} // base64 string passed as prop
+            style={styles.logo}
+          />
+          <Text style={styles.title}>ABC International School</Text>
+          <Text style={styles.subtitle}>
+            REPORT CARD - {new Date().getFullYear()}
+          </Text>
+          <Text style={styles.badge}>{result}</Text>
         </View>
 
         {/* Student Info */}
