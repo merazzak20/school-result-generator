@@ -1,12 +1,35 @@
-# React + Vite + Tailwind 
+# 🏫 Result Card Generator 🎓
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The **Result Card Generator** is a school report card creation tool built with **React** and **Tailwind CSS**. It allows users to enter student details and subject marks, view a stylized report card, and download it as a **PDF** – all in a few clicks!
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌍 Live Demo
 
-## Expanding the ESLint configuration
+🔗 **[Live Link](https://result-card-sage.vercel.app/)** <!-- Replace with your actual link -->
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 📸 UI Preview
+
+![Result Card Preview](https://i.ibb.co.com/ccsXs2zg/Screenshot-2025-08-06-223844.png) <!-- Replace with actual screenshot URL -->
+
+---
+
+## ✨ Features
+
+✅ **Dynamic Result Card** – Automatically generates a detailed student report card based on input.  
+✅ **PDF Download** – Export the report card in print-ready PDF format.  
+✅ **Responsive Design** – Optimized layout for all screen sizes.  
+✅ **Tailored Feedback** – Each subject displays performance feedback.  
+✅ **Grading System** – Automatically assigns grades based on mark thresholds.
+
+---
+
+## 🛠 Tech Stack
+
+- **Frontend:** React.js, Tailwind CSS
+- **State Management:** useState, useEffect
+- **Routing:** React Router
+- **PDF & Screenshot:** jsPDF, html2canvas
+- **Deployment:** Vercel
