@@ -31,5 +31,5 @@ The **Result Card Generator** is a school report card creation tool built with *
 - **Frontend:** React.js, Tailwind CSS
 - **State Management:** useState, useEffect
 - **Routing:** React Router
-- **PDF & Screenshot:** jsPDF, html2canvas
+- **PDF & Screenshot:** react-pdf
 - **Deployment:** Vercel
