@@ -18,12 +18,13 @@ const styles = StyleSheet.create({
   header: {
     textAlign: "center",
     marginBottom: 10,
+    alignItems: "center",
   },
   logo: {
     width: 80,
     height: 80,
     marginBottom: 10,
-    textAlign: "center",
+    // textAlign: "center",
   },
   title: {
     fontSize: 24,
